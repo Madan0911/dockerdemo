@@ -1,5 +1,28 @@
-FROM nginux:latest
+FROM ubuntu:latest
 
-COPY index.html /usr/share/nginx/html/index.html
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y wget unzip
 
-EXPOSE 81
+# Install Terraform
+RUN wget https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip && \
+    unzip terraform_1.5.5_linux_amd64.zip && \
+    mv terraform /usr/local/bin/ && \
+    rm terraform_1.5.5_linux_amd64.zip
+
+# Set working directory
+WORKDIR /app
+
+# Copy Terraform configuration files
+COPY . /app
+
+# Set environment variables (not recommended for sensitive data)
+ENV AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY
+ENV AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
+ENV AWS_REGION=YOUR_REGION
+
+# Initialize Terraform
+RUN terraform init
+
+# Apply Terraform configuration
+CMD ["terraform", "apply", "-auto-approve"]
