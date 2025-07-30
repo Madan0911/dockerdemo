@@ -17,8 +17,8 @@ WORKDIR /app
 COPY . /app
 
 # Set environment variables (not recommended for sensitive data)
-ENV AWS_ACCESS_KEY_ID=AKIARZMY5KL6SSUH7N3F
-ENV AWS_SECRET_ACCESS_KEY=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
+ENV AWS_ACCESS_KEY_ID=
+ENV AWS_SECRET_ACCESS_KEY=
 ENV AWS_REGION=us-east-1
 
 # Initialize Terraform
